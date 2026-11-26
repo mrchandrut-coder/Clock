@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101827">
+<title>Chennai Live Clock</title>
+<style>
+  :root { color-scheme: dark; --bg:#101827; --panel:#1b2940; --text:#f4f7fb; --muted:#aab7ca; --accent:#70e1c1; }
+  * { box-sizing: border-box; }
+  body { margin:0; min-height:100vh; display:grid; place-items:center; padding:20px;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text);
+    transition:background .25s,color .25s; }
+  body.light { color-scheme:light; --bg:#eef3f8; --panel:#fff; --text:#172338; --muted:#64748b; --accent:#087f68; }
+  .app { width:min(100%,560px); text-align:center; background:var(--panel); padding:clamp(24px,6vw,48px);
+    border-radius:28px; box-shadow:0 20px 60px #0002; }
+  .eyebrow { color:var(--muted); text-transform:uppercase; letter-spacing:.16em; font-size:.78rem; font-weight:700; }
+  h1 { margin:10px 0 28px; font-size:clamp(1.5rem,5vw,2.2rem); }
+  #time { font-variant-numeric:tabular-nums; font-size:clamp(3rem,13vw,5.8rem); line-height:1.05; font-weight:750; letter-spacing:-.055em; color:var(--accent); }
+  #date { margin-top:18px; color:var(--muted); font-size:clamp(1rem,3.5vw,1.2rem); }
+  .zone { margin-top:8px; color:var(--muted); font-size:.9rem; }
+  .controls { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:30px; }
+  button { border:1px solid #8795aa55; background:transparent; color:var(--text); border-radius:999px;
+    padding:11px 17px; font:inherit; font-weight:650; cursor:pointer; }
+  button.primary { background:var(--accent); color:#09251f; border-color:transparent; }
+  button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
+  .hint { margin-top:24px; color:var(--muted); font-size:.82rem; line-height:1.5; }
+</style>
+</head>
+<body>
+<main class="app">
+  <div class="eyebrow">Live local time</div>
+  <h1>Chennai Clock</h1>
+  <div id="time" aria-live="off">--:--:--</div>
+  <div id="date">Loading date…</div>
+  <div class="zone">Chennai, Tamil Nadu · India Standard Time (IST)</div>
+  <div class="controls">
+    <button class="primary" id="format">Switch to 24-hour</button>
+    <button id="theme">Light theme</button>
+    <button id="fullscreen">Full screen</button>
+  </div>
+  <div class="hint">The clock updates every second using your device's time, displayed in the Asia/Kolkata time zone.</div>
+</main>
+<script>
+(() => {
+  const zone = 'Asia/Kolkata';
+  let use24 = false;
+  const timeEl = document.getElementById('time');
+  const dateEl = document.getElementById('date');
+  const formatBtn = document.getElementById('format');
+  function update() {
+    const now = new Date();
+    timeEl.textContent = new Intl.DateTimeFormat('en-IN', {
+      timeZone: zone, hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: !use24
+    }).format(now);
+    dateEl.textContent = new Intl.DateTimeFormat('en-IN', {
+      timeZone: zone, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    }).format(now);
+  }
+  formatBtn.addEventListener('click', () => {
+    use24 = !use24;
+    formatBtn.textContent = use24 ? 'Switch to 12-hour' : 'Switch to 24-hour';
+    update();
+  });
+  document.getElementById('theme').addEventListener('click', e => {
+    document.body.classList.toggle('light');
+    e.currentTarget.textContent = document.body.classList.contains('light') ? 'Dark theme' : 'Light theme';
+  });
+  document.getElementById('fullscreen').addEventListener('click', async () => {
+    try {
+      if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+      else await document.exitFullscreen();
+    } catch (_) { alert('Full screen is not available in this browser.'); }
+  });
+  update();
+  setInterval(update, 1000);
+})();
+</script>
+</body>
+</html>
