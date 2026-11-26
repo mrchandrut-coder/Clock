@@ -3,79 +3,86 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#101827">
-<title>Chennai Live Clock</title>
+<meta name="theme-color" content="#090f1d">
+<title>WallTime — Live Clock</title>
 <style>
-  :root { color-scheme: dark; --bg:#101827; --panel:#1b2940; --text:#f4f7fb; --muted:#aab7ca; --accent:#70e1c1; }
-  * { box-sizing: border-box; }
-  body { margin:0; min-height:100vh; display:grid; place-items:center; padding:20px;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--text);
-    transition:background .25s,color .25s; }
-  body.light { color-scheme:light; --bg:#eef3f8; --panel:#fff; --text:#172338; --muted:#64748b; --accent:#087f68; }
-  .app { width:min(100%,560px); text-align:center; background:var(--panel); padding:clamp(24px,6vw,48px);
-    border-radius:28px; box-shadow:0 20px 60px #0002; }
-  .eyebrow { color:var(--muted); text-transform:uppercase; letter-spacing:.16em; font-size:.78rem; font-weight:700; }
-  h1 { margin:10px 0 28px; font-size:clamp(1.5rem,5vw,2.2rem); }
-  #time { font-variant-numeric:tabular-nums; font-size:clamp(3rem,13vw,5.8rem); line-height:1.05; font-weight:750; letter-spacing:-.055em; color:var(--accent); }
-  #date { margin-top:18px; color:var(--muted); font-size:clamp(1rem,3.5vw,1.2rem); }
-  .zone { margin-top:8px; color:var(--muted); font-size:.9rem; }
-  .controls { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-top:30px; }
-  button { border:1px solid #8795aa55; background:transparent; color:var(--text); border-radius:999px;
-    padding:11px 17px; font:inherit; font-weight:650; cursor:pointer; }
-  button.primary { background:var(--accent); color:#09251f; border-color:transparent; }
-  button:focus-visible { outline:3px solid var(--accent); outline-offset:3px; }
-  .hint { margin-top:24px; color:var(--muted); font-size:.82rem; line-height:1.5; }
+:root{--bg:#090f1d;--panel:#111b2d;--panel2:#17243a;--text:#f4f7ff;--muted:#9aa9c2;--accent:#69d6ff;--line:rgba(255,255,255,.09);--shadow:0 20px 60px rgba(0,0,0,.28)}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -10%,#20395c 0%,var(--bg) 55%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;transition:.25s}
+body.light{--bg:#eef3fa;--panel:#fff;--panel2:#e9f0f8;--text:#17243a;--muted:#64748b;--accent:#087eae;--line:rgba(23,36,58,.12);--shadow:0 18px 50px rgba(36,60,90,.12);background:linear-gradient(145deg,#f8fbff,#e7eff8)}
+.wrap{max-width:1120px;margin:auto;padding:26px 22px 36px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#67d8ff,#6685ff);display:grid;place-items:center;color:#071321;font-size:22px;font-weight:900}.brand h1{font-size:19px;margin:0;letter-spacing:.4px}.brand small{color:var(--muted);display:block;margin-top:2px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase}.actions{display:flex;gap:8px}.btn,.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:12px;padding:10px 13px;cursor:pointer;font:inherit}.btn:hover,.tab:hover{border-color:var(--accent)}.tabs{display:flex;gap:8px;overflow:auto;padding-bottom:5px;margin-bottom:18px}.tab{white-space:nowrap;color:var(--muted)}.tab.active{background:var(--panel2);color:var(--accent);border-color:var(--accent)}
+main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(250px,.8fr);gap:18px}.panel{background:linear-gradient(145deg,var(--panel),color-mix(in srgb,var(--panel) 85%,transparent));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:clamp(20px,4vw,38px)}.hero{text-align:center;display:flex;flex-direction:column;justify-content:center;min-height:410px;position:relative;overflow:hidden}.hero:before{content:"";position:absolute;width:320px;height:320px;border-radius:50%;background:var(--accent);filter:blur(120px);opacity:.09;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}.eyebrow{font-size:12px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}.time{font-variant-numeric:tabular-nums;font-weight:650;letter-spacing:-.075em;font-size:clamp(64px,11vw,126px);line-height:1.12;margin:18px 0 10px;position:relative}.time .seconds{font-size:.38em;letter-spacing:-.03em;color:var(--accent);vertical-align:18%}.ampm{font-size:clamp(15px,2vw,20px);letter-spacing:2px;color:var(--accent);margin-left:8px}.date{font-size:clamp(15px,2vw,19px);color:var(--muted)}.greeting{margin-top:28px;color:var(--muted);font-size:14px}.hero-controls{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:28px;position:relative}.side{display:flex;flex-direction:column;gap:14px}.mini{padding:21px}.mini h3{font-size:13px;color:var(--muted);font-weight:600;margin:0 0 12px}.location{font-size:23px;font-weight:650}.sub{color:var(--muted);font-size:13px;margin-top:5px}.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:12px;margin-top:16px}.dot{width:7px;height:7px;border-radius:50%;background:#5ce0a0;box-shadow:0 0 12px #5ce0a0}.section-title{font-size:22px;margin:0 0 7px}.section-desc{color:var(--muted);margin:0 0 22px;font-size:14px}.field{display:flex;flex-direction:column;gap:7px;margin:14px 0}.field label{font-size:13px;color:var(--muted)}input,select{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font:inherit;outline:none}input:focus,select:focus{border-color:var(--accent)}.row{display:flex;gap:10px;align-items:center}.row>*{flex:1}.big-readout{font-size:clamp(46px,9vw,78px);font-weight:650;letter-spacing:-.06em;font-variant-numeric:tabular-nums;margin:24px 0}.world-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.world{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--panel2)}.world strong{display:block;font-size:14px}.world b{display:block;font-size:27px;margin:9px 0;font-variant-numeric:tabular-nums}.world small{color:var(--muted)}.alarm-item{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line);gap:10px}.alarm-item:last-child{border:0}.alarm-item strong{font-size:19px}.muted{color:var(--muted);font-size:12px}.hidden{display:none!important}.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:22px}.minimal .top,.minimal .tabs,.minimal .side,.minimal .greeting,.minimal .hero-controls,.minimal .foot{display:none!important}.minimal .wrap{max-width:none;padding:0;min-height:100vh;display:grid;place-items:center}.minimal main{display:block}.minimal .hero{min-height:100vh;border:0;border-radius:0;background:transparent;box-shadow:none}.minimal .time{font-size:clamp(80px,18vw,210px)}
+@media(max-width:760px){.wrap{padding:17px 14px 26px}.top{margin-bottom:18px}.actions .btn{padding:9px}.actions .label{display:none}main{grid-template-columns:1fr}.hero{min-height:360px}.side{display:grid;grid-template-columns:1fr 1fr}.mini:last-child{grid-column:1/-1}}
+@media(max-width:420px){.side{grid-template-columns:1fr}.mini:last-child{grid-column:auto}.time{font-size:clamp(57px,16vw,76px)}}
 </style>
 </head>
 <body>
-<main class="app">
-  <div class="eyebrow">Live local time</div>
-  <h1>Chennai Clock</h1>
-  <div id="time" aria-live="off">--:--:--</div>
-  <div id="date">Loading date…</div>
-  <div class="zone">Chennai, Tamil Nadu · India Standard Time (IST)</div>
-  <div class="controls">
-    <button class="primary" id="format">Switch to 24-hour</button>
-    <button id="theme">Light theme</button>
-    <button id="fullscreen">Full screen</button>
-  </div>
-  <div class="hint">The clock updates every second using your device's time, displayed in the Asia/Kolkata time zone.</div>
+<div class="wrap" id="app">
+<header class="top">
+  <div class="brand"><div class="logo">W</div><div><h1>WallTime</h1><small>Time, beautifully displayed</small></div></div>
+  <div class="actions"><button class="btn" id="themeBtn" title="Toggle theme">☼ <span class="label">Theme</span></button><button class="btn" id="fullBtn" title="Full screen">⛶ <span class="label">Full screen</span></button></div>
+</header>
+<nav class="tabs" aria-label="App sections">
+<button class="tab active" data-page="clock">◷ Clock</button><button class="tab" data-page="world">◎ World clock</button><button class="tab" data-page="timer">◴ Timer</button><button class="tab" data-page="stopwatch">⏱ Stopwatch</button><button class="tab" data-page="alarms">♧ Alarms</button>
+</nav>
+<main id="clockPage">
+  <section class="panel hero">
+    <div class="eyebrow">Chennai · India · IST</div>
+    <div class="time" id="timeText">--:--<span class="seconds">--</span><span class="ampm" id="ampm"></span></div>
+    <div class="date" id="dateText">Loading date…</div>
+    <div class="greeting" id="greeting">Have a good day.</div>
+    <div class="hero-controls"><button class="btn" id="formatBtn">Switch to 24-hour</button><button class="btn" id="minimalBtn">Minimal display</button></div>
+  </section>
+  <aside class="side">
+    <section class="panel mini"><h3>YOUR TIMEZONE</h3><div class="location">Asia / Kolkata</div><div class="sub">UTC +05:30 · Indian Standard Time</div><div class="status"><span class="dot"></span> Live device clock</div></section>
+    <section class="panel mini"><h3>TODAY</h3><div class="location" id="dayName">—</div><div class="sub" id="longDate">—</div><div class="sub">Keep your day on track.</div></section>
+    <section class="panel mini"><h3>DISPLAY TIP</h3><div class="location">Wall-ready</div><div class="sub">Use full-screen mode on a TV, tablet or spare phone for a clean wall display.</div></section>
+  </aside>
 </main>
+<main id="worldPage" class="hidden"><section class="panel" style="grid-column:1/-1"><h2 class="section-title">World clock</h2><p class="section-desc">Compare the current time in selected cities.</p><div class="world-list" id="worldList"></div></section></main>
+<main id="timerPage" class="hidden"><section class="panel" style="grid-column:1/-1"><h2 class="section-title">Countdown timer</h2><p class="section-desc">Set a duration and start the countdown.</p><div class="row"><div class="field"><label for="timerMin">Minutes</label><input id="timerMin" type="number" min="0" max="999" value="1"></div><div class="field"><label for="timerSec">Seconds</label><input id="timerSec" type="number" min="0" max="59" value="0"></div></div><div class="big-readout" id="timerReadout">01:00</div><div class="row"><button class="btn" id="timerStart">Start</button><button class="btn" id="timerReset">Reset</button></div></section></main>
+<main id="stopwatchPage" class="hidden"><section class="panel" style="grid-column:1/-1"><h2 class="section-title">Stopwatch</h2><p class="section-desc">Measure elapsed time with lap support.</p><div class="big-readout" id="swReadout">00:00.0</div><div class="row"><button class="btn" id="swStart">Start</button><button class="btn" id="swLap">Lap</button><button class="btn" id="swReset">Reset</button></div><div id="laps" style="margin-top:18px"></div></section></main>
+<main id="alarmsPage" class="hidden"><section class="panel" style="grid-column:1/-1"><h2 class="section-title">Alarms</h2><p class="section-desc">Create alarms while this page is open. Keep your device volume on.</p><div class="row"><div class="field"><label for="alarmTime">Alarm time</label><input id="alarmTime" type="time"></div><div class="field"><label for="alarmLabel">Label</label><input id="alarmLabel" type="text" placeholder="e.g. Open shop"></div></div><button class="btn" id="addAlarm">＋ Add alarm</button><div id="alarmList" style="margin-top:18px"></div></section></main>
+<div class="foot">WallTime · Chennai, Tamil Nadu · Time is based on your device clock</div>
+</div>
 <script>
-(() => {
-  const zone = 'Asia/Kolkata';
-  let use24 = false;
-  const timeEl = document.getElementById('time');
-  const dateEl = document.getElementById('date');
-  const formatBtn = document.getElementById('format');
-  function update() {
-    const now = new Date();
-    timeEl.textContent = new Intl.DateTimeFormat('en-IN', {
-      timeZone: zone, hour: '2-digit', minute: '2-digit', second: '2-digit',
-      hour12: !use24
-    }).format(now);
-    dateEl.textContent = new Intl.DateTimeFormat('en-IN', {
-      timeZone: zone, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
-    }).format(now);
-  }
-  formatBtn.addEventListener('click', () => {
-    use24 = !use24;
-    formatBtn.textContent = use24 ? 'Switch to 12-hour' : 'Switch to 24-hour';
-    update();
-  });
-  document.getElementById('theme').addEventListener('click', e => {
-    document.body.classList.toggle('light');
-    e.currentTarget.textContent = document.body.classList.contains('light') ? 'Dark theme' : 'Light theme';
-  });
-  document.getElementById('fullscreen').addEventListener('click', async () => {
-    try {
-      if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
-      else await document.exitFullscreen();
-    } catch (_) { alert('Full screen is not available in this browser.'); }
-  });
-  update();
-  setInterval(update, 1000);
-})();
+const $=id=>document.getElementById(id);let is24=false;
+const tz='Asia/Kolkata';
+function tick(){
+ const now=new Date();
+ const parts=new Intl.DateTimeFormat('en-IN',{timeZone:tz,hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:!is24}).formatToParts(now);
+ const get=t=>parts.find(p=>p.type===t)?.value||'';
+ $('timeText').innerHTML=`${get('hour')}:${get('minute')}<span class="seconds">${get('second')}</span>`;
+ $('ampm').textContent=is24?'':get('dayPeriod').toUpperCase();
+ $('dateText').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:tz,weekday:'long',day:'numeric',month:'long',year:'numeric'}).format(now);
+ $('dayName').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:tz,weekday:'long'}).format(now);
+ $('longDate').textContent=new Intl.DateTimeFormat('en-IN',{timeZone:tz,day:'numeric',month:'long',year:'numeric'}).format(now);
+ const h=Number(new Intl.DateTimeFormat('en-IN',{timeZone:tz,hour:'numeric',hourCycle:'h23'}).format(now));
+ $('greeting').textContent=h<12?'Good morning. Make today count.':h<17?'Good afternoon. Keep going.':h<21?'Good evening. Take a moment to unwind.':'Good night. Rest well.';
+}
+tick();setInterval(tick,250);
+$('formatBtn').onclick=()=>{is24=!is24;$('formatBtn').textContent=is24?'Switch to 12-hour':'Switch to 24-hour';tick()};
+$('themeBtn').onclick=()=>document.body.classList.toggle('light');
+$('fullBtn').onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
+$('minimalBtn').onclick=()=>{document.body.classList.toggle('minimal');$('minimalBtn').textContent=document.body.classList.contains('minimal')?'Exit minimal display':'Minimal display'};
+const pages=['clock','world','timer','stopwatch','alarms'];
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));pages.forEach(p=>$(p+'Page').classList.toggle('hidden',p!==b.dataset.page));});
+const cities=[['Chennai','Asia/Kolkata'],['London','Europe/London'],['Dubai','Asia/Dubai'],['Singapore','Asia/Singapore'],['Tokyo','Asia/Tokyo'],['New York','America/New_York']];
+function updateWorld(){$('worldList').innerHTML=cities.map(([n,z])=>`<div class="world"><strong>${n}</strong><b>${new Intl.DateTimeFormat('en-GB',{timeZone:z,hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date())}</b><small>${new Intl.DateTimeFormat('en',{timeZone:z,weekday:'short',day:'numeric',month:'short'}).format(new Date())}</small></div>`).join('')}
+updateWorld();setInterval(updateWorld,1000);
+let timerTotal=60,timerLeft=60,timerRun=null;
+function showTimer(){let m=Math.floor(timerLeft/60),s=timerLeft%60;$('timerReadout').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+$('timerStart').onclick=()=>{if(timerRun){clearInterval(timerRun);timerRun=null;$('timerStart').textContent='Resume';return}if(timerLeft<=0){timerLeft=timerTotal}if(timerLeft<=0)return; $('timerStart').textContent='Pause';timerRun=setInterval(()=>{timerLeft--;showTimer();if(timerLeft<=0){clearInterval(timerRun);timerRun=null;$('timerStart').textContent='Start';alert('Timer finished!')}},1000)};
+$('timerReset').onclick=()=>{clearInterval(timerRun);timerRun=null;timerTotal=Math.max(0,Number($('timerMin').value||0))*60+Math.min(59,Math.max(0,Number($('timerSec').value||0)));timerLeft=timerTotal;showTimer();$('timerStart').textContent='Start'};
+$('timerMin').onchange=$('timerSec').onchange=()=>{if(!timerRun)$('timerReset').click()};showTimer();
+let swRun=null,swStart=0,swElapsed=0,lapN=0;
+function swDisplay(){let t=swElapsed+(swRun?Date.now()-swStart:0),m=Math.floor(t/60000),s=Math.floor(t%60000/1000),d=Math.floor(t%1000/100);$('swReadout').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}.${d}`}
+$('swStart').onclick=()=>{if(swRun){swElapsed+=Date.now()-swStart;clearInterval(swRun);swRun=null;$('swStart').textContent='Resume'}else{swStart=Date.now();swRun=setInterval(swDisplay,80);$('swStart').textContent='Pause'}swDisplay()};
+$('swLap').onclick=()=>{if(!swRun&&!swElapsed)return;lapN++;let d=$('swReadout').textContent;$('laps').insertAdjacentHTML('afterbegin',`<div class="alarm-item"><span>Lap ${lapN}</span><strong>${d}</strong></div>`)};
+$('swReset').onclick=()=>{clearInterval(swRun);swRun=null;swElapsed=0;lapN=0;$('swStart').textContent='Start';$('laps').innerHTML='';swDisplay()};swDisplay();
+let alarms=[],alarmCheck=setInterval(()=>{let now=new Date(),hhmm=new Intl.DateTimeFormat('en-GB',{timeZone:tz,hour:'2-digit',minute:'2-digit',hour12:false}).format(now);alarms.forEach(a=>{if(a.on&&a.time===hhmm&&a.last!==now.toDateString()){a.last=now.toDateString();a.on=false;renderAlarms();alert('Alarm: '+(a.label||'WallTime alarm'))}})},10000);
+function renderAlarms(){$('alarmList').innerHTML=alarms.length?alarms.map((a,i)=>`<div class="alarm-item"><div><strong>${a.time}</strong><div class="muted">${a.label||'Alarm'} · ${a.on?'Enabled':'Disabled'}</div></div><button class="btn" data-toggle="${i}">${a.on?'Turn off':'Turn on'}</button><button class="btn" data-delete="${i}">Delete</button></div>`).join(''):'<p class="muted">No alarms yet.</p>'}
+$('addAlarm').onclick=()=>{let t=$('alarmTime').value;if(!t){alert('Choose an alarm time first.');return}alarms.push({time:t,label:$('alarmLabel').value.trim(),on:true,last:''});$('alarmLabel').value='';renderAlarms()};
+$('alarmList').onclick=e=>{let i=e.target.dataset.toggle??e.target.dataset.delete;if(i===undefined)return;i=Number(i);if(e.target.dataset.delete!==undefined)alarms.splice(i,1);else alarms[i].on=!alarms[i].on;renderAlarms()};
 </script>
 </body>
 </html>
